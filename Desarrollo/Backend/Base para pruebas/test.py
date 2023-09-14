@@ -5,10 +5,10 @@ import numpy as np
 from datetime import datetime
 
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="=lSp&@9=P76pAbru0&uv",
-    database="testdatabase"
+    host="",
+    user="",
+    passwd="",
+    database=""
 )
 
 cursor = db.cursor()
