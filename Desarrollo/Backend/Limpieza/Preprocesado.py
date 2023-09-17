@@ -21,10 +21,7 @@ dfTelefonos = dfTelefonos[:,0:4]
 dfTEL4 = df["TEL4"].values.reshape(-1,1)
 dfTEL4 = dfTEL4.astype(float)
 
-for i in range(len(dfTEL4)):
-    if dfTEL4[i]==0:
-        dfTEL4[i]=np.nan  
-del i
+df["TEL4"] = df["TEL4"].replace(0, np.nan)
         
 dfTelefonos = np.concatenate([dfTelefonos, dfTEL4],axis=1)
 
@@ -41,10 +38,7 @@ boolTelefonos = np.where(mascaraNulos == 5, 0, boolTelefonos)
 Preprocesado para mail
 """
 dfMail = df["MAIL"].values.reshape(-1,1).copy()
-for i in range(len(dfMail)):
-    if dfMail[i] == " ":
-        dfMail[i] = np.nan
-del i
+df["MAIL"] = df["MAIL"].apply(lambda x: np.nan if x == " " else x)
 
 boolMail = np.array([0 if x!=x else 1 for x in dfMail])
 
