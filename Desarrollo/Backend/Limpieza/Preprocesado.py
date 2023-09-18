@@ -21,7 +21,10 @@ dfTelefonos = dfTelefonos[:,0:4]
 dfTEL4 = df["TEL4"].values.reshape(-1,1)
 dfTEL4 = dfTEL4.astype(float)
 
-df["TEL4"] = df["TEL4"].replace(0, np.nan)
+for i in range(len(dfTEL4)):
+    if dfTEL4[i]==0:
+        dfTEL4[i]=np.nan  
+del i
         
 dfTelefonos = np.concatenate([dfTelefonos, dfTEL4],axis=1)
 
@@ -38,7 +41,10 @@ boolTelefonos = np.where(mascaraNulos == 5, 0, boolTelefonos)
 Preprocesado para mail
 """
 dfMail = df["MAIL"].values.reshape(-1,1).copy()
-df["MAIL"] = df["MAIL"].apply(lambda x: np.nan if x == " " else x)
+for i in range(len(dfMail)):
+    if dfMail[i] == " ":
+        dfMail[i] = np.nan
+del i
 
 boolMail = np.array([0 if x!=x else 1 for x in dfMail])
 
@@ -107,8 +113,6 @@ dfSaldoVencido = dfMerge[['Cliente','Saldo_Vencido']]
 
 #Sacamos la suma total del saldo vencido
 Suma_total_a_recuperar = dfSaldoVencido['Saldo_Vencido'].sum()
-
-
 
 
 
