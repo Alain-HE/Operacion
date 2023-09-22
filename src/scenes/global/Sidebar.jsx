@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
@@ -19,11 +19,12 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     return (
         <MenuItem
             active={selected === title}
-            style={{ color: colors.grey[100] }}
+            style={{ 
+                color: colors.grey[100],
+            }}
             onClick={() => setSelected(title)}
             icon={icon}
         >
@@ -31,7 +32,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
             <Link to={to} />
         </MenuItem>
     );
-}
+};
 
 const Sidebar = () => {
     const theme = useTheme();
@@ -125,6 +126,15 @@ const Sidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
+
+                        <Typography
+                            variant="h6"
+                            color={colors.grey[300]}
+                            sx={{ m: "15px 0 5px 20px"}}
+                        >
+                            Data
+                        </Typography>
+
                         <Item
                             title="Manage Team"
                             to="/team"
@@ -146,6 +156,15 @@ const Sidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
+
+                        <Typography
+                            variant="h6"
+                            color={colors.grey[300]}
+                            sx={{ m: "15px 0 5px 20px" }}
+                            >
+                            Pages
+                        </Typography>
+                        
                         <Item
                             title="Profile Form"
                             to="/form"
@@ -167,6 +186,15 @@ const Sidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
+
+                         <Typography
+                            variant="h6"
+                            color={colors.grey[300]}
+                            sx={{ m: "15px 0 5px 20px" }}
+                            >
+                            Charts
+                        </Typography>
+
                         <Item
                             title="Bar Chart"
                             to="/bar"
