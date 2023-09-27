@@ -17,7 +17,7 @@ const FAQ = () => {
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon= {<ExpandMoreIcon />}>
                     <Typography color={colors.greenAccent[500]} variant="h5">
-                        An Importan Question
+                        An Important Question
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -29,7 +29,7 @@ const FAQ = () => {
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon= {<ExpandMoreIcon />}>
                     <Typography color={colors.greenAccent[500]} variant="h5">
-                        An Importan Question
+                        A more Important Question
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -41,7 +41,7 @@ const FAQ = () => {
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon= {<ExpandMoreIcon />}>
                     <Typography color={colors.greenAccent[500]} variant="h5">
-                        An Importan Question
+                        The most Important Question
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -53,7 +53,7 @@ const FAQ = () => {
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon= {<ExpandMoreIcon />}>
                     <Typography color={colors.greenAccent[500]} variant="h5">
-                        An Importan Question
+                        The Question
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -65,7 +65,7 @@ const FAQ = () => {
             <Accordion defaultExpanded>
                 <AccordionSummary expandIcon= {<ExpandMoreIcon />}>
                     <Typography color={colors.greenAccent[500]} variant="h5">
-                        An Importan Question
+                        The important
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
