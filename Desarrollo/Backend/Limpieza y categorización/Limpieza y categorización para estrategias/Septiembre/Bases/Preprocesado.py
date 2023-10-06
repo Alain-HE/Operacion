@@ -120,7 +120,7 @@ Suma_total_a_recuperar = dfContactablesUnicos['Saldo_Vencido'].sum()
 #Se les asigna según su tipo
 dfPredictivas = dfContactablesUnicos[dfContactablesUnicos['Meses_vencidos'] == 1]
 #Se exporta
-dfPredictivas.to_excel("listado_predictivos_SEP_2023.xlsx",index=False)
+#dfPredictivas.to_excel("listado_predictivos_SEP_2023.xlsx",index=False)
 Suma_total_a_recuperar_predictivo = dfPredictivas['Saldo_Vencido'].sum()
 
 
@@ -130,13 +130,13 @@ dfProgresiva = dfProgresiva[dfProgresiva['Meses_vencidos'] <=  6]
 
 Suma_total_a_recuperar_progresivo = dfProgresiva['Saldo_Vencido'].sum()
 #Se exporta
-dfProgresiva.to_excel("listado_progresivos_SEP_2023.xlsx",index=False)
+#dfProgresiva.to_excel("listado_progresivos_SEP_2023.xlsx",index=False)
 
 
 
 dfManual = dfContactablesUnicos[dfContactablesUnicos['Meses_vencidos'] >  6]
 #Se exporta
-dfManual.to_excel("listado_manual_SEP_2023.xlsx",index=False)
+#dfManual.to_excel("listado_manual_SEP_2023.xlsx",index=False)
 Suma_total_a_recuperar_manual = dfManual['Saldo_Vencido'].sum()
 
 
