@@ -9,39 +9,25 @@ import pandas as pd
 import numpy as np
 
 
-df = pd.read_excel("Base_Telefonos_Agosto23s.xlsx")
-
-"""
-Preprocesado para telefonos
-"""
-dfTelefonos = df[["telefono","TEL1","TEL2","TEL3","TEL4"]].values
-
-#Se separan aquellos con espacios en blanco
-dftelefono = df["telefono"].values.reshape(-1,1)
-dfTEL1 = df["TEL1"].values.reshape(-1,1)
-dfTEL4 = df["TEL4"].values.reshape(-1,1)
-dfTelefonos = dfTelefonos[:,2:4]
-
-dfTEL4 = dfTEL4.astype(float)
+df = pd.read_excel("Base_telefonos.xlsx").replace(" ",np.nan).replace(0,np.nan)
+df2 = pd.read_excel("Base_Telefonos_Cuentas_Conflicto_Ago23_DIRSA.xlsx").replace(" ",np.nan).replace(0,np.nan)
 
 
-for i in range(len(dfTEL4)):
-    if dfTEL4[i]==0:
-        dfTEL4[i]=np.nan  
-del i
+df = pd.concat([df, df2], ignore_index=True)
 
-dftelefono[dftelefono == ' '] = np.nan
-dftelefono = dftelefono.astype(float)
+del df2
 
-dfTEL1[dfTEL1 == ' '] = np.nan
-dfTEL1 = dfTEL1.astype(float)
 
-#Se vuelven a juntar
-dfTelefonos = np.concatenate([dftelefono,dfTEL1, dfTelefonos,dfTEL4],axis=1).astype(float)
-      
+dfMail = df["MAIL"].values.reshape(-1,1).copy()
+
+df = df.drop('MAIL', axis=1)
+
+
+
+
 
 #Se realiza una mascara
-mascaraNulos = np.isnan(dfTelefonos).astype(int)
+mascaraNulos = np.isnan(df).astype(int)
 
 # Sumar las filas de la matriz de NaN para contar NaN por columna
 mascaraNulos = np.sum(mascaraNulos, axis=1)
@@ -52,10 +38,9 @@ boolTelefonos = np.where(mascaraNulos < 5, 1, mascaraNulos)
 #Si tiene 5 no tiene medio de contacto es decir 5 nans
 boolTelefonos = np.where(mascaraNulos == 5, 0, boolTelefonos)
 
-"""
-Preprocesado para mail
-"""
-dfMail = df["MAIL"].values.reshape(-1,1).copy()
+
+#Preprocesado para mail
+
 
 for i in range(len(dfMail)):
     if dfMail[i] == " ":
@@ -70,13 +55,21 @@ boolTotal = boolTelefonos + boolMail
 
 boolTotal = np.where(boolTotal >= 1, 1, boolTotal)
 
+dfMail=pd.DataFrame(dfMail)
+
+
+
+df=pd.concat([df, dfMail], axis=1)
+
+df = df.rename(columns={0: 'MAIL'})
+
 dfConBool = pd.concat([df, pd.Series(boolTotal, name='C')], axis=1)
 
 
-"""
-Guardar esta tabla
-Datos que se regresan "No tienen como contactarse"
-"""
+
+#Guardar esta tabla
+#Datos que se regresan "No tienen como contactarse"
+
 dfNoContactables = dfConBool[dfConBool['C'] == 0]
 #Borramos la ultima columna porque no nos sirve
 dfNoContactables = dfNoContactables.drop(dfNoContactables.columns[-1], axis=1)
@@ -89,19 +82,19 @@ dfContactables = dfConBool[dfConBool['C'] == 1]
 dfContactables = dfContactables.drop(dfContactables.columns[-1], axis=1)
 
 #Valores unicos del data que si podemos contactar
-"""
-Guardar esta tabla
-Datos que nos quedamos "Si tienen como contactarse y son unicos"
-"""
+
+#Guardar esta tabla
+#Datos que nos quedamos "Si tienen como contactarse y son unicos"
+
 dfContactablesUnicos = dfContactables[~dfContactables.duplicated(subset="Cliente")]
 
 #dfContactablesUnicos.to_excel("Base_telefonos__contactables.xlsx",index=False)
 
 #Valores duplicados
-"""
-Guardar esta tabla 
-Datos que si tienen como contactarse pero estan duplicados
-"""
+
+#Guardar esta tabla 
+#Datos que si tienen como contactarse pero estan duplicados
+
 dfDuplicados = dfContactables[dfContactables.duplicated(subset="Cliente", keep="first")]
 
 #dfDuplicados.to_excel("Reporte_Duplicados_AGO_2023.xlsx",index=False)
@@ -110,14 +103,14 @@ Porcentaje=100*(len(dfContactablesUnicos)/len(df))
 
 
 
-"""
-Cuanto podemos recuperar del total
 
-"""
+#Cuanto podemos recuperar del total
 
 #Se carga el nuevo archivo los archivos saldos
 dfSaldos = pd.read_excel("Saldos.xlsx")
+dfSaldos2 = pd.read_excel("Saldos_conflicto.xlsx")
 
+dfSaldos = pd.concat([dfSaldos,dfSaldos2], ignore_index=True)
 
 #Se hace un merge de los que podemos juntar a partir de cliente
 dfMerge = pd.merge(dfSaldos, dfContactablesUnicos, on='Cliente') 
@@ -138,9 +131,10 @@ dfSaldoVencido = dfMerge[['Cliente','Saldo_Vencido']]
 Suma_total_a_recuperar = dfSaldoVencido['Saldo_Vencido'].sum()
 
 
-dfDemo = pd.read_excel("Asignación_DIRSA_Agosto23d.xlsx")
+dfDemo = pd.read_excel("Datos_Demograficos.xlsx")
+dfDemo2 = pd.read_excel("Demograficos_conflicto.xlsx")
 
-
+dfDemo = pd.concat([dfDemo, dfDemo2], ignore_index=True)
 
 
 #Se vuelven a hacer merge de aquellos datos que si se pueden juntar
@@ -169,7 +163,6 @@ dfManual = dfCombinado_todo[dfCombinado_todo['pagos_vencidos'] >  6]
 #Se exporta
 #.to_excel("listado_manual_AGO_2023.xlsx",index=False)
 Suma_total_a_recuperar_manual = dfManual['Saldo_Vencido'].sum()
-
 
 
 

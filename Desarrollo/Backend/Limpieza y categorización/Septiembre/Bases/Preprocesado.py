@@ -19,8 +19,6 @@ Preprocesado para telefonos
 TEL_VENTA	Telefono_Cel	telefono	TEL1	TEL2	TEL3	TEL_CARTERA
 
 """
-#dfTelefonos = df[["TEL_VENTA","Telefono_Cel","telefono","TEL1","TEL2","TEL3","TEL_CARTERA"]].replace(" ",np.nan)
-#dfTelefonos = dfTelefonos.replace(0,np.nan)
 
       
 
